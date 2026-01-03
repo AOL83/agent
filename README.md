@@ -18,22 +18,25 @@ The project intentionally runs in **real browser conditions** (no mocks, no test
 
 ## What This System Is
 
-Replicator AI Terminal is a **multi-agent orchestration interface** with two primary surfaces:
+Replicator AI Terminal is a **multi-agent orchestration interface** designed to let a human coordinate, monitor, and reason about complex work executed by multiple AI agents.
+
+It has two primary surfaces:
 
 ### Page 1 — Dashboard (`index.html`)
-- Mission intake and briefing
-- Agent selection and role modeling
-- Task orchestration and planning
+- Task / mission intake
+- Brief definition (objectives, constraints, success criteria)
+- Agent recommendations
+- Agent assignment (manual + assisted)
+- Task orchestration
 - Run creation and persistence
 
 ### Page 2 — Execution Graph (`graph.html`)
-- Visual workflow builder
+- Visual workflow graph
 - Task and agent nodes
 - Dependency edges
 - Pan / zoom / auto-arrange
+- Real-time execution feedback
 - Debuggable execution surface
-
-The system models how a **human coordinator** decomposes intent into tasks, assigns agents, and monitors execution flow.
 
 ---
 
