@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Replicator AI Agent Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">RA</div>
+        <div>
+          <h1>Replicator AI Terminal</h1>
+          <p>Coordinate multi-agent execution with clarity and speed.</p>
+        </div>
+      </div>
+      <div class="status">
+        <div class="status-card">
+          <span class="label">Active Agents</span>
+          <strong id="activeCount">0</strong>
+        </div>
+        <div class="status-card">
+          <span class="label">Queued Tasks</span>
+          <strong id="taskCount">0</strong>
+        </div>
+        <button class="primary" id="deployBtn">Deploy Synchronization</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <aside class="panel left">
+        <h2>Agent Bay</h2>
+        <p class="muted">Drag agents into tasks to allocate resources.</p>
+        <div id="agentPool" class="agent-pool" aria-label="Available agents">
+          <!-- Agent cards injected -->
+        </div>
+        <div class="pool-footer">
+          <div class="drop-zone" id="poolDrop">
+            Drop here to unassign
+          </div>
+        </div>
+      </aside>
+
+      <main class="panel center">
+        <section class="brief">
+          <div>
+            <h2>Command Bridge</h2>
+            <p class="muted">Broadcast intent, constraints, and success criteria.</p>
+          </div>
+          <div class="command-controls">
+            <textarea id="broadcast" placeholder="Describe mission objectives, constraints, and the expected output..."></textarea>
+            <div class="command-actions">
+              <div class="chip-set">
+                <span class="chip">Priority: High</span>
+                <span class="chip">Mode: Autonomous</span>
+                <span class="chip">Review: Required</span>
+              </div>
+              <button class="ghost" id="saveBriefBtn">Save Brief</button>
+              <button class="primary" id="transmitBtn">Transmit to Agents</button>
+              <span class="status-pill" id="briefStatus"></span>
+            </div>
+            <div id="briefInsights" class="brief-insights"></div>
+          </div>
+        </section>
+
+        <section class="receptionist panel">
+          <div class="section-header">
+            <div>
+              <h2>Receptionist Desk</h2>
+              <p class="muted">Turn intent into structured plans and outreach drafts.</p>
+            </div>
+            <div class="receptionist-controls">
+              <label for="receptionistRuns" class="muted">Recent Runs</label>
+              <select id="receptionistRuns"></select>
+            </div>
+          </div>
+
+          <form id="receptionistForm" class="receptionist-form">
+            <div class="field">
+              <label for="intentInput">What do you want to do?</label>
+              <textarea id="intentInput" placeholder="Example: Buy land in Lithuania for renewable energy project..."></textarea>
+              <span class="error" id="intentError"></span>
+            </div>
+            <div class="field-grid">
+              <div class="field">
+                <label for="intentCountry">Country</label>
+                <input id="intentCountry" type="text" placeholder="Lithuania" />
+              </div>
+              <div class="field">
+                <label for="intentRegion">City/Region</label>
+                <input id="intentRegion" type="text" placeholder="Vilnius region" />
+              </div>
+              <div class="field">
+                <label for="budgetMin">Budget Min</label>
+                <input id="budgetMin" type="number" min="0" placeholder="100000" />
+              </div>
+              <div class="field">
+                <label for="budgetMax">Budget Max</label>
+                <input id="budgetMax" type="number" min="0" placeholder="500000" />
+              </div>
+              <div class="field">
+                <label for="assetType">Asset Type</label>
+                <select id="assetType">
+                  <option value="">Select</option>
+                  <option value="land">Land</option>
+                  <option value="house">House</option>
+                  <option value="commercial">Commercial</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="timeline">Timeline</label>
+                <input id="timeline" type="text" placeholder="Next 3 months" />
+              </div>
+              <div class="field">
+                <label for="language">Language</label>
+                <input id="language" type="text" placeholder="English" />
+              </div>
+            </div>
+            <div class="actions">
+              <button type="submit" class="primary">Generate Plan</button>
+            </div>
+          </form>
+
+          <div class="tabs">
+            <button class="tab active" data-tab="plan">Plan</button>
+            <button class="tab" data-tab="contacts">Contacts</button>
+            <button class="tab" data-tab="drafts">Drafts Queue</button>
+          </div>
+          <div class="tab-panels">
+            <div class="tab-panel active" data-panel="plan">
+              <div class="plan-actions">
+                <button class="ghost" id="pushPlanBtn">Push plan to Task Orchestrator</button>
+                <span class="muted" id="receptionistToast"></span>
+              </div>
+              <div id="receptionistPlan"></div>
+            </div>
+            <div class="tab-panel" data-panel="contacts">
+              <div id="receptionistContacts"></div>
+            </div>
+            <div class="tab-panel" data-panel="drafts">
+              <div id="receptionistDrafts"></div>
+            </div>
+          </div>
+
+          <details class="audit-log">
+            <summary>Audit Log</summary>
+            <ul id="receptionistAudit"></ul>
+          </details>
+        </section>
+
+        <section class="tasks">
+          <div class="section-header">
+            <div>
+              <h2>Task Orchestrator</h2>
+              <p class="muted">Scale tasks by size to unlock more agent slots.</p>
+            </div>
+            <form id="taskForm" class="task-form">
+              <input type="text" id="taskTitle" placeholder="Task title" required />
+              <select id="taskSize">
+                <option value="S">Small (1 agent)</option>
+                <option value="M">Medium (3 agents)</option>
+                <option value="L">Large (5 agents)</option>
+                <option value="XL">Extra Large (8 agents)</option>
+              </select>
+              <input type="text" id="taskDesc" placeholder="Outcome or deliverable" />
+              <button class="primary" type="submit">Add Task</button>
+            </form>
+          </div>
+
+          <div id="taskBoard" class="task-board" aria-label="Tasks"></div>
+        </section>
+      </main>
+
+      <aside class="panel right">
+        <h2>Telemetry</h2>
+        <div class="metric">
+          <span>Sync Health</span>
+          <strong>98%</strong>
+        </div>
+        <div class="metric">
+          <span>Knowledge Cache</span>
+          <strong>12.4 GB</strong>
+        </div>
+        <div class="metric">
+          <span>Latency Budget</span>
+          <strong>230 ms</strong>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3>Quick Controls</h3>
+        <div class="control">
+          <label for="risk">Risk Appetite</label>
+          <input type="range" id="risk" min="1" max="5" value="3" />
+        </div>
+        <div class="control">
+          <label for="tempo">Execution Tempo</label>
+          <input type="range" id="tempo" min="1" max="5" value="4" />
+        </div>
+
+        <div class="divider"></div>
+
+        <h3>Agent Signals</h3>
+        <ul class="signals">
+          <li><span class="dot online"></span> Nova: ready for research</li>
+          <li><span class="dot online"></span> Atlas: standing by</li>
+          <li><span class="dot warning"></span> Lumen: waiting on data</li>
+          <li><span class="dot idle"></span> Kestrel: resting</li>
+        </ul>
+      </aside>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

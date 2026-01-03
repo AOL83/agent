@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Replicator Run Graph</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app graph-layout">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">RA</div>
+        <div>
+          <h1>Execution Graph</h1>
+          <p id="runMeta">Run: --</p>
+        </div>
+      </div>
+      <div class="status">
+        <button class="ghost" id="backBtn">Back to Dashboard</button>
+        <div class="overall-widget">
+          <div class="gauge gauge-md" id="overallGauge">
+            <div class="gauge-arc"></div>
+            <div class="gauge-needle"></div>
+            <div class="gauge-value">0</div>
+            <div class="gauge-label">Overall</div>
+          </div>
+          <span class="overall-label">Efficiency</span>
+        </div>
+        <div class="efficiency-pill" id="efficiencyScore">Efficiency 0</div>
+      </div>
+    </header>
+
+    <section class="graph-content">
+      <div class="panel graph-panel">
+        <div class="graph-toolbar">
+          <div>
+            <h2>Workflow Builder</h2>
+            <p class="muted">Use Auto Arrange to align tasks into lanes. Pan and zoom to navigate.</p>
+          </div>
+          <div class="toolbar-actions">
+            <button class="ghost" id="fitViewBtn">Fit to View</button>
+            <button class="primary" id="autoArrangeBtn">Auto Arrange</button>
+            <button class="ghost" id="resetGraphBtn">Reset</button>
+            <button class="ghost" id="debugSnapshotBtn">Debug Snapshot</button>
+          </div>
+        </div>
+        <div class="graph-canvas" id="graphCanvas">
+          <div class="graph-viewport" id="graphViewport">
+            <div class="graph-world" id="graphWorld">
+              <svg class="graph-edges" id="graphEdges"></svg>
+            </div>
+          </div>
+          <div class="connect-hint hidden" id="connectHint">
+            <span id="connectHintText">Connect mode</span>
+            <button class="ghost" id="cancelConnectBtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel workspace-panel">
+        <div>
+          <h2>Workspace Team</h2>
+          <p class="muted">Use Toggle Workspace on an agent card to form the active team.</p>
+        </div>
+        <div class="workspace-drop" id="workspaceDrop">Workspace staging area</div>
+        <div class="workspace-list" id="workspaceList"></div>
+        <div class="divider"></div>
+        <div class="team-report">
+          <h3>Team Report</h3>
+          <div id="teamReport"></div>
+        </div>
+        <div class="compatibility-panel">
+          <h3>Compatibility</h3>
+          <div id="compatibilityPanel" class="muted">Select an agent or task to see link suggestions.</div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="link-modal hidden" id="linkModal">
+      <div class="link-modal-card">
+        <div class="link-modal-header">
+          <h3 id="linkModalTitle">Select</h3>
+          <button class="ghost" id="linkModalClose">Close</button>
+        </div>
+        <div class="link-modal-list" id="linkModalList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="graph.js"></script>
+</body>
+</html>
